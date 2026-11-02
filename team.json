@@ -1,0 +1,27 @@
+{
+  "team_number": "T0090",
+  "group_lead": {
+    "name": "Prachi Aggarwal",
+    "enrollment_no": "2501010607",
+    "github": "prachidevx"
+  },
+  "members": [
+    {
+      "name": "Gauri Tewari",
+      "enrollment_no": "2501010557",
+      "github": "gaurit0557"
+    },
+    {
+      "name": "Kinjal Singla",
+      "enrollment_no": "2501010699",
+      "github": "singlakinjal"
+    },
+    {
+      "name": "Deepali Aggarwal",
+      "enrollment_no": "2501010134",
+      "github": "deepaliaggarwal856-hub"
+    }
+  ],
+  "postgres_version": "",
+  "laptop_used_for_benchmarks": ""
+}
