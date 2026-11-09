@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Google Maps Navigation Database: DBMS Project
 
 **Course:** Database Management Systems · **Year:** B.Tech 2nd year · **Team size:** 4
@@ -736,7 +736,3 @@ WHERE s.place_id = p.place_id
 DELETE FROM incident_reports
 WHERE expires_at < '2026-06-01';
 ```
-=======
-# DE_Project_2026
-DE repository of Mess Metrics - A campus mess analytics platform for tracking meal demand, food consumption, and food waste, with data-driven insights to help reduce waste and improve meal planning.
->>>>>>> beee55d382fa4fc3185aabfb69d3817f336c2e68
