@@ -1,0 +1,75 @@
+=== R05 run 1 ===
+Limit  (cost=280.56..280.59 rows=10 width=54) (actual time=0.269..0.270 rows=10.00 loops=1)
+  Buffers: shared hit=112
+  ->  Sort  (cost=280.56..280.62 rows=24 width=54) (actual time=0.268..0.268 rows=10.00 loops=1)
+        Sort Key: r.created_at DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=112
+        ->  Nested Loop  (cost=4.77..280.05 rows=24 width=54) (actual time=0.044..0.244 rows=27.00 loops=1)
+              Buffers: shared hit=109
+              ->  Bitmap Heap Scan on place_reviews r  (cost=4.48..88.67 rows=24 width=48) (actual time=0.033..0.095 rows=27.00 loops=1)
+                    Recheck Cond: (place_id = 18)
+                    Heap Blocks: exact=26
+                    Buffers: shared hit=28
+                    ->  Bitmap Index Scan on place_reviews_place_user_unique  (cost=0.00..4.47 rows=24 width=0) (actual time=0.022..0.022 rows=27.00 loops=1)
+                          Index Cond: (place_id = 18)
+                          Index Searches: 1
+                          Buffers: shared hit=2
+              ->  Index Scan using users_pkey on users u  (cost=0.29..7.97 rows=1 width=14) (actual time=0.005..0.005 rows=1.00 loops=27)
+                    Index Cond: (user_id = r.user_id)
+                    Index Searches: 27
+                    Buffers: shared hit=81
+Planning:
+  Buffers: shared hit=275
+Planning Time: 0.819 ms
+Execution Time: 0.307 ms
+=== R05 run 2 ===
+Limit  (cost=280.56..280.59 rows=10 width=54) (actual time=0.295..0.297 rows=10.00 loops=1)
+  Buffers: shared hit=112
+  ->  Sort  (cost=280.56..280.62 rows=24 width=54) (actual time=0.294..0.295 rows=10.00 loops=1)
+        Sort Key: r.created_at DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=112
+        ->  Nested Loop  (cost=4.77..280.05 rows=24 width=54) (actual time=0.043..0.268 rows=27.00 loops=1)
+              Buffers: shared hit=109
+              ->  Bitmap Heap Scan on place_reviews r  (cost=4.48..88.67 rows=24 width=48) (actual time=0.031..0.102 rows=27.00 loops=1)
+                    Recheck Cond: (place_id = 18)
+                    Heap Blocks: exact=26
+                    Buffers: shared hit=28
+                    ->  Bitmap Index Scan on place_reviews_place_user_unique  (cost=0.00..4.47 rows=24 width=0) (actual time=0.020..0.020 rows=27.00 loops=1)
+                          Index Cond: (place_id = 18)
+                          Index Searches: 1
+                          Buffers: shared hit=2
+              ->  Index Scan using users_pkey on users u  (cost=0.29..7.97 rows=1 width=14) (actual time=0.006..0.006 rows=1.00 loops=27)
+                    Index Cond: (user_id = r.user_id)
+                    Index Searches: 27
+                    Buffers: shared hit=81
+Planning:
+  Buffers: shared hit=275
+Planning Time: 0.772 ms
+Execution Time: 0.337 ms
+=== R05 run 3 ===
+Limit  (cost=280.56..280.59 rows=10 width=54) (actual time=0.251..0.253 rows=10.00 loops=1)
+  Buffers: shared hit=112
+  ->  Sort  (cost=280.56..280.62 rows=24 width=54) (actual time=0.251..0.251 rows=10.00 loops=1)
+        Sort Key: r.created_at DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=112
+        ->  Nested Loop  (cost=4.77..280.05 rows=24 width=54) (actual time=0.035..0.228 rows=27.00 loops=1)
+              Buffers: shared hit=109
+              ->  Bitmap Heap Scan on place_reviews r  (cost=4.48..88.67 rows=24 width=48) (actual time=0.024..0.083 rows=27.00 loops=1)
+                    Recheck Cond: (place_id = 18)
+                    Heap Blocks: exact=26
+                    Buffers: shared hit=28
+                    ->  Bitmap Index Scan on place_reviews_place_user_unique  (cost=0.00..4.47 rows=24 width=0) (actual time=0.015..0.015 rows=27.00 loops=1)
+                          Index Cond: (place_id = 18)
+                          Index Searches: 1
+                          Buffers: shared hit=2
+              ->  Index Scan using users_pkey on users u  (cost=0.29..7.97 rows=1 width=14) (actual time=0.005..0.005 rows=1.00 loops=27)
+                    Index Cond: (user_id = r.user_id)
+                    Index Searches: 27
+                    Buffers: shared hit=81
+Planning:
+  Buffers: shared hit=275
+Planning Time: 0.727 ms
+Execution Time: 0.287 ms
