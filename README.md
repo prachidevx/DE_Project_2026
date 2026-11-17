@@ -25,7 +25,7 @@
 |------|------|----------------|-----------------|
 | Group Lead | Prachi Aggarwal | 2501010607| prachidevx |
 | Member 2 | Kinjal Singla | 2501010699 | singlakinjal |
-| Member 3 | Gauri Tewari | 2501010557 | gaurit0557 |
+| Member 3 | Gauri Tewari | 2501010557 | gauree-io |
 | Member 4 | Deepali Aggarwal | 2501010134 | deepaliaggarwal856-hub |
 
 **Team No.:** ____ · **Section:** ____ · **Repository URL:** ____
