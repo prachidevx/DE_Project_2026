@@ -58,3 +58,49 @@ The measurements were collected from the raw execution plans stored in
 
 The average timings are also recorded in
 `benchmarks/results/baseline/summary.csv`.
+
+## 5. Query Scan Types and Performance Observations
+
+The execution plans show how PostgreSQL accesses the tables while executing each query.
+The following observations summarize the scan types and the main factors affecting execution time.
+
+| Query ID | Scan Type | Performance Observation |
+|---|---|---|
+| R01 | Sequential Scan | PostgreSQL scans the places table and filters approximately 40,026 rows before sorting the matching restaurants by distance. |
+| R02 | Index Scan | Primary key indexes are used to retrieve the place and its opening hours efficiently. |
+| R03 | Sequential Scan | The places table is scanned to search for names containing "biryani". The substring search requires checking many rows. |
+| R04 | Sequential Scan | Opening hours and places are scanned to identify restaurants open at the specified late-night time. |
+| R05 | Bitmap Heap Scan, Bitmap Index Scan, Index Scan | Indexes help locate reviews for the selected place and retrieve the related user records efficiently. |
+| R06 | Index Scan | Primary key indexes are used to retrieve saved places and their corresponding place records. |
+| R07 | Sequential Scan | Traffic readings and road segments are scanned to identify the latest traffic reading for each segment. |
+| R08 | Sequential Scan, Index Scan | Traffic readings require scanning, while an index helps retrieve matching road segments. |
+| R09 | Sequential Scan | The traffic readings table is scanned to calculate average speed grouped by hour. |
+| R10 | Sequential Scan | Incident reports and road segments are scanned to identify incidents matching the specified date and location. |
+| R11 | Sequential Scan | Navigation sessions are scanned to calculate average ETA error grouped by travel mode and month. |
+| R12 | Sequential Scan | Navigation sessions and places are scanned to identify the most frequently visited Mumbai destinations. |
+| R13 | Sequential Scan | Places and navigation sessions are scanned to identify places that have never been used as navigation origins. |
+| R14 | Sequential Scan | Reviews and users are scanned to calculate the leaderboard based on review activity and photos. |
+| R15 | Sequential Scan | Reviews and places are scanned to compare stored ratings and review counts with calculated values. |
+| R16 | Sequential Scan | Navigation sessions and places are scanned to identify permanently closed places that were still navigated to. |
+| R17 | Sequential Scan | Navigation sessions are scanned to calculate average rerouting counts for destinations. |
+| R18 | Sequential Scan | Navigation sessions are scanned to calculate cancellation percentages grouped by travel mode. |
+| R19 | Sequential Scan | Two correlated subqueries repeatedly scan the large navigation_sessions table for each hospital, resulting in very high execution time. |
+| R20 | Sequential Scan | Navigation sessions are scanned to calculate daily navigation counts and running totals. |
+| R21 | Sequential Scan | Opening hours, places and categories are scanned to identify places without opening-hour records. |
+| R22 | Sequential Scan | The reviews table is scanned to retrieve a deep page of results using OFFSET 50000, increasing the amount of data PostgreSQL must process. |
+| R23 | Index Scan | The unique Plus Code index allows PostgreSQL to find the matching place very quickly. |
+| R24 | Sequential Scan | The places table is scanned to find restaurants with matching names located within the specified distance. |
+| R25 | Sequential Scan | Traffic readings and road segments are scanned to calculate the percentage of readings exceeding speed limits. |
+| W01 | No Scan (Direct INSERT) | A new navigation session is inserted directly without scanning existing table rows. |
+| W02 | No Scan (INSERT with conflict handling) | A review is inserted using ON CONFLICT DO NOTHING, avoiding a separate table scan for the insert operation. |
+| W03 | No Scan (INSERT with conflict handling) | A saved-place record is inserted using ON CONFLICT DO NOTHING. |
+| W04 | Sequential Scan | Places and reviews are scanned to recalculate ratings and review counts for all places. |
+| W05 | Sequential Scan | Incident reports are scanned to identify and delete expired records. |
+
+### Overall Observation
+
+Most queries use sequential scans because they process or filter records across larger tables.
+
+Queries R02, R05, R06 and R23 benefit from indexes and have very low execution times.
+
+R19 is the slowest query, with an average execution time of 26,260.101 ms (approximately 26.26 seconds). Its correlated subqueries repeatedly scan the navigation_sessions table, making it an important optimization candidate for a later phase.
