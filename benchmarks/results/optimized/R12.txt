@@ -1,0 +1,102 @@
+=== R12 run 1 ===
+Limit  (cost=1383.72..1383.74 rows=10 width=32) (actual time=1.892..1.893 rows=10.00 loops=1)
+  Buffers: shared hit=940
+  ->  Sort  (cost=1383.72..1384.72 rows=401 width=32) (actual time=1.891..1.892 rows=10.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=940
+        ->  HashAggregate  (cost=1371.04..1375.05 rows=401 width=32) (actual time=1.848..1.863 rows=376.00 loops=1)
+              Group Key: p.place_id
+              Batches: 1  Memory Usage: 72kB
+              Buffers: shared hit=937
+              ->  Hash Join  (cost=1278.60..1369.04 rows=401 width=24) (actual time=1.595..1.809 rows=400.00 loops=1)
+                    Hash Cond: (n.dest_place_id = p.place_id)
+                    Buffers: shared hit=937
+                    ->  Index Only Scan using idx_nav_started_dest on navigation_sessions n  (cost=0.42..84.28 rows=2506 width=4) (actual time=0.006..0.090 rows=2564.00 loops=1)
+                          Index Cond: (started_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=14
+                    ->  Hash  (cost=1198.07..1198.07 rows=6409 width=24) (actual time=1.581..1.581 rows=6400.00 loops=1)
+                          Buckets: 8192  Batches: 1  Memory Usage: 415kB
+                          Buffers: shared hit=923
+                          ->  Bitmap Heap Scan on places p  (cost=205.96..1198.07 rows=6409 width=24) (actual time=0.259..1.250 rows=6400.00 loops=1)
+                                Recheck Cond: (city_id = 2)
+                                Heap Blocks: exact=883
+                                Buffers: shared hit=923
+                                ->  Bitmap Index Scan on idx_places_city_place  (cost=0.00..204.36 rows=6409 width=0) (actual time=0.212..0.212 rows=6488.00 loops=1)
+                                      Index Cond: (city_id = 2)
+                                      Index Searches: 1
+                                      Buffers: shared hit=40
+Planning:
+  Buffers: shared hit=442 read=5
+Planning Time: 1.467 ms
+Execution Time: 1.925 ms
+=== R12 run 2 ===
+Limit  (cost=1383.72..1383.74 rows=10 width=32) (actual time=1.962..1.964 rows=10.00 loops=1)
+  Buffers: shared hit=940
+  ->  Sort  (cost=1383.72..1384.72 rows=401 width=32) (actual time=1.962..1.963 rows=10.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=940
+        ->  HashAggregate  (cost=1371.04..1375.05 rows=401 width=32) (actual time=1.920..1.934 rows=376.00 loops=1)
+              Group Key: p.place_id
+              Batches: 1  Memory Usage: 72kB
+              Buffers: shared hit=937
+              ->  Hash Join  (cost=1278.60..1369.04 rows=401 width=24) (actual time=1.653..1.883 rows=400.00 loops=1)
+                    Hash Cond: (n.dest_place_id = p.place_id)
+                    Buffers: shared hit=937
+                    ->  Index Only Scan using idx_nav_started_dest on navigation_sessions n  (cost=0.42..84.28 rows=2506 width=4) (actual time=0.004..0.083 rows=2564.00 loops=1)
+                          Index Cond: (started_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=14
+                    ->  Hash  (cost=1198.07..1198.07 rows=6409 width=24) (actual time=1.640..1.640 rows=6400.00 loops=1)
+                          Buckets: 8192  Batches: 1  Memory Usage: 415kB
+                          Buffers: shared hit=923
+                          ->  Bitmap Heap Scan on places p  (cost=205.96..1198.07 rows=6409 width=24) (actual time=0.246..1.282 rows=6400.00 loops=1)
+                                Recheck Cond: (city_id = 2)
+                                Heap Blocks: exact=883
+                                Buffers: shared hit=923
+                                ->  Bitmap Index Scan on idx_places_city_place  (cost=0.00..204.36 rows=6409 width=0) (actual time=0.195..0.195 rows=6488.00 loops=1)
+                                      Index Cond: (city_id = 2)
+                                      Index Searches: 1
+                                      Buffers: shared hit=40
+Planning:
+  Buffers: shared hit=447
+Planning Time: 0.573 ms
+Execution Time: 1.995 ms
+=== R12 run 3 ===
+Limit  (cost=1383.72..1383.74 rows=10 width=32) (actual time=1.615..1.616 rows=10.00 loops=1)
+  Buffers: shared hit=940
+  ->  Sort  (cost=1383.72..1384.72 rows=401 width=32) (actual time=1.614..1.615 rows=10.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=940
+        ->  HashAggregate  (cost=1371.04..1375.05 rows=401 width=32) (actual time=1.572..1.586 rows=376.00 loops=1)
+              Group Key: p.place_id
+              Batches: 1  Memory Usage: 72kB
+              Buffers: shared hit=937
+              ->  Hash Join  (cost=1278.60..1369.04 rows=401 width=24) (actual time=1.344..1.537 rows=400.00 loops=1)
+                    Hash Cond: (n.dest_place_id = p.place_id)
+                    Buffers: shared hit=937
+                    ->  Index Only Scan using idx_nav_started_dest on navigation_sessions n  (cost=0.42..84.28 rows=2506 width=4) (actual time=0.004..0.079 rows=2564.00 loops=1)
+                          Index Cond: (started_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=14
+                    ->  Hash  (cost=1198.07..1198.07 rows=6409 width=24) (actual time=1.333..1.333 rows=6400.00 loops=1)
+                          Buckets: 8192  Batches: 1  Memory Usage: 415kB
+                          Buffers: shared hit=923
+                          ->  Bitmap Heap Scan on places p  (cost=205.96..1198.07 rows=6409 width=24) (actual time=0.200..1.029 rows=6400.00 loops=1)
+                                Recheck Cond: (city_id = 2)
+                                Heap Blocks: exact=883
+                                Buffers: shared hit=923
+                                ->  Bitmap Index Scan on idx_places_city_place  (cost=0.00..204.36 rows=6409 width=0) (actual time=0.158..0.158 rows=6488.00 loops=1)
+                                      Index Cond: (city_id = 2)
+                                      Index Searches: 1
+                                      Buffers: shared hit=40
+Planning:
+  Buffers: shared hit=447
+Planning Time: 0.549 ms
+Execution Time: 1.644 ms

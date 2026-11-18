@@ -1,0 +1,45 @@
+=== R01 run 1 ===
+Limit  (cost=19.57..19.57 rows=2 width=61) (actual time=0.201..0.204 rows=16.00 loops=1)
+  Buffers: shared hit=29
+  ->  Sort  (cost=19.57..19.57 rows=2 width=61) (actual time=0.201..0.202 rows=16.00 loops=1)
+        Sort Key: (round((('6371'::double precision * acos(LEAST('1'::double precision, ((('0.9746238552210419'::double precision * cos(radians(latitude))) * cos((radians(longitude) - '1.3548031052143383'::double precision))) + ('0.2238489241298101'::double precision * sin(radians(latitude))))))))::numeric, 3))
+        Sort Method: quicksort  Memory: 26kB
+        Buffers: shared hit=29
+        ->  Index Scan using idx_places_r01 on places  (cost=0.41..19.56 rows=2 width=61) (actual time=0.070..0.176 rows=16.00 loops=1)
+              Index Cond: ((category_id = 1) AND (latitude >= '12.9262'::double precision) AND (latitude <= '12.9442'::double precision) AND (longitude >= '77.6152'::double precision) AND (longitude <= '77.6338'::double precision))
+              Index Searches: 1
+              Buffers: shared hit=26
+Planning:
+  Buffers: shared hit=290
+Planning Time: 0.532 ms
+Execution Time: 0.254 ms
+=== R01 run 2 ===
+Limit  (cost=19.57..19.57 rows=2 width=61) (actual time=0.110..0.112 rows=16.00 loops=1)
+  Buffers: shared hit=29
+  ->  Sort  (cost=19.57..19.57 rows=2 width=61) (actual time=0.109..0.110 rows=16.00 loops=1)
+        Sort Key: (round((('6371'::double precision * acos(LEAST('1'::double precision, ((('0.9746238552210419'::double precision * cos(radians(latitude))) * cos((radians(longitude) - '1.3548031052143383'::double precision))) + ('0.2238489241298101'::double precision * sin(radians(latitude))))))))::numeric, 3))
+        Sort Method: quicksort  Memory: 26kB
+        Buffers: shared hit=29
+        ->  Index Scan using idx_places_r01 on places  (cost=0.41..19.56 rows=2 width=61) (actual time=0.044..0.093 rows=16.00 loops=1)
+              Index Cond: ((category_id = 1) AND (latitude >= '12.9262'::double precision) AND (latitude <= '12.9442'::double precision) AND (longitude >= '77.6152'::double precision) AND (longitude <= '77.6338'::double precision))
+              Index Searches: 1
+              Buffers: shared hit=26
+Planning:
+  Buffers: shared hit=300
+Planning Time: 0.539 ms
+Execution Time: 0.147 ms
+=== R01 run 3 ===
+Limit  (cost=19.57..19.57 rows=2 width=61) (actual time=0.096..0.097 rows=16.00 loops=1)
+  Buffers: shared hit=29
+  ->  Sort  (cost=19.57..19.57 rows=2 width=61) (actual time=0.095..0.096 rows=16.00 loops=1)
+        Sort Key: (round((('6371'::double precision * acos(LEAST('1'::double precision, ((('0.9746238552210419'::double precision * cos(radians(latitude))) * cos((radians(longitude) - '1.3548031052143383'::double precision))) + ('0.2238489241298101'::double precision * sin(radians(latitude))))))))::numeric, 3))
+        Sort Method: quicksort  Memory: 26kB
+        Buffers: shared hit=29
+        ->  Index Scan using idx_places_r01 on places  (cost=0.41..19.56 rows=2 width=61) (actual time=0.037..0.081 rows=16.00 loops=1)
+              Index Cond: ((category_id = 1) AND (latitude >= '12.9262'::double precision) AND (latitude <= '12.9442'::double precision) AND (longitude >= '77.6152'::double precision) AND (longitude <= '77.6338'::double precision))
+              Index Searches: 1
+              Buffers: shared hit=26
+Planning:
+  Buffers: shared hit=300
+Planning Time: 0.462 ms
+Execution Time: 0.127 ms

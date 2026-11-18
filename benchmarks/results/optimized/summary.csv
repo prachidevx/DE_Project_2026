@@ -1,0 +1,31 @@
+query_id,type,avg_ms,median_ms,min_ms,max_ms,scan_nodes
+R01,READ,0.176,0.147,0.127,0.254,Index Scan using idx_places_r01 on places
+R02,READ,0.192,0.065,0.056,0.455,Index Scan using idx_places_place_cat on places | Index Only Scan using idx_opening_hours_weekday on opening_hours
+R03,READ,1.118,1.022,0.957,1.376,Bitmap Heap Scan on places | Bitmap Index Scan on idx_places_name_trgm | Bitmap Index Scan on idx_places_city_place
+R04,READ,1.679,0.420,0.410,4.207,Index Scan using idx_places_city_cat_rating on places | Index Only Scan using idx_opening_hours_weekday on opening_hours
+R05,READ,0.207,0.068,0.066,0.488,Index Scan using idx_place_reviews_place_created on place_reviews | Index Scan using users_pkey on users
+R06,READ,0.186,0.054,0.054,0.451,Index Only Scan using idx_saved_places_user_list_saved on saved_places | Index Scan using idx_places_place_cat on places
+R07,READ,2.553,1.844,1.776,4.038,Index Only Scan using idx_road_segments_city_road on road_segments | Index Only Scan using idx_traffic_readings_segment_recorded on traffic_readings
+R08,READ,0.200,0.063,0.060,0.478,Index Only Scan using idx_traffic_heavy on traffic_readings | Index Only Scan using idx_road_segments_city_road on road_segments
+R09,READ,0.110,0.108,0.103,0.118,Index Only Scan using idx_traffic_readings_segment_recorded on traffic_readings
+R10,READ,0.079,0.074,0.072,0.092,Index Scan using idx_incident_reported_at on incident_reports | Index Only Scan using idx_road_segments_city_road on road_segments
+R11,READ,13.157,13.142,12.687,13.641,Index Only Scan using idx_nav_completed_started on navigation_sessions
+R12,READ,1.855,1.925,1.644,1.995,Index Only Scan using idx_nav_started_dest on navigation_sessions | Bitmap Heap Scan on places | Bitmap Index Scan on idx_places_city_place
+R13,READ,5.413,5.036,5.022,6.180,Index Scan using places_pkey on places | Index Only Scan using idx_nav_origin_place on navigation_sessions
+R14,READ,1.317,1.320,1.281,1.350,Index Only Scan using idx_reviews_created_user on place_reviews | Index Scan using users_pkey on users
+R15,READ,19.646,19.417,19.325,20.197,Index Scan using places_pkey on places | Index Only Scan using idx_place_reviews_place_rating on place_reviews
+R16,READ,5.586,4.672,4.554,7.533,Index Only Scan using idx_nav_started_dest on navigation_sessions | Index Only Scan using idx_places_closed on places
+R17,READ,29.172,29.029,28.912,29.574,Seq Scan on navigation_sessions
+R18,READ,10.701,10.556,9.825,11.722,Index Only Scan using idx_nav_mode_status on navigation_sessions
+R19,READ,25.053,25.150,24.756,25.253,Seq Scan on place_categories | Seq Scan on navigation_sessions | Bitmap Heap Scan on places | Bitmap Index Scan on idx_places_city_place
+R20,READ,1.318,1.318,1.309,1.326,Index Only Scan using idx_nav_started_dest on navigation_sessions
+R21,READ,13.781,13.909,13.442,13.993,Index Only Scan using idx_places_place_cat on places | Seq Scan on opening_hours | Seq Scan on place_categories
+R22,READ,3.883,2.909,2.785,5.954,Index Only Scan using idx_reviews_created_covering on place_reviews
+R23,READ,0.025,0.023,0.022,0.029,Index Scan using places_plus_code_key on places
+R24,READ,4.436,4.423,4.241,4.644,Seq Scan on places | Bitmap Heap Scan on places | Bitmap Index Scan on idx_places_city_place
+R25,READ,26.854,27.078,26.333,27.151,Seq Scan on traffic_readings | Seq Scan on road_segments
+W01,WRITE,0.935,0.674,0.635,1.495,(no scan)
+W02,WRITE,0.601,0.593,0.564,0.645,(no scan)
+W03,WRITE,0.867,0.689,0.678,1.235,(no scan)
+W04,WRITE,42.724,38.857,38.143,51.172,Seq Scan on places | Seq Scan on place_reviews
+W05,WRITE,2.153,2.068,2.045,2.345,Seq Scan on incident_reports

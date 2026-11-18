@@ -1,0 +1,60 @@
+=== R15 run 1 ===
+GroupAggregate  (cost=0.71..7210.21 rows=40036 width=53) (actual time=0.042..20.148 rows=558.00 loops=1)
+  Group Key: p.place_id
+  Filter: ((p.review_count <> count(*)) OR (p.avg_rating <> round(avg(r.rating), 1)))
+  Rows Removed by Filter: 33873
+  Buffers: shared hit=1011 read=244
+  ->  Merge Join  (cost=0.71..5634.29 rows=89998 width=15) (actual time=0.010..11.849 rows=89998.00 loops=1)
+        Merge Cond: (p.place_id = r.place_id)
+        Buffers: shared hit=1011 read=244
+        ->  Index Scan using places_pkey on places p  (cost=0.29..1965.04 rows=40042 width=13) (actual time=0.004..2.325 rows=40001.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1006
+        ->  Index Only Scan using idx_place_reviews_place_rating on place_reviews r  (cost=0.42..2446.39 rows=89998 width=6) (actual time=0.003..3.381 rows=89998.00 loops=1)
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=5 read=244
+Planning:
+  Buffers: shared hit=457 read=4
+Planning Time: 1.168 ms
+Execution Time: 20.197 ms
+=== R15 run 2 ===
+GroupAggregate  (cost=0.71..7210.21 rows=40036 width=53) (actual time=0.038..19.274 rows=558.00 loops=1)
+  Group Key: p.place_id
+  Filter: ((p.review_count <> count(*)) OR (p.avg_rating <> round(avg(r.rating), 1)))
+  Rows Removed by Filter: 33873
+  Buffers: shared hit=1255
+  ->  Merge Join  (cost=0.71..5634.29 rows=89998 width=15) (actual time=0.008..11.064 rows=89998.00 loops=1)
+        Merge Cond: (p.place_id = r.place_id)
+        Buffers: shared hit=1255
+        ->  Index Scan using places_pkey on places p  (cost=0.29..1965.04 rows=40042 width=13) (actual time=0.004..2.345 rows=40001.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1006
+        ->  Index Only Scan using idx_place_reviews_place_rating on place_reviews r  (cost=0.42..2446.39 rows=89998 width=6) (actual time=0.003..2.686 rows=89998.00 loops=1)
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=249
+Planning:
+  Buffers: shared hit=461
+Planning Time: 0.519 ms
+Execution Time: 19.325 ms
+=== R15 run 3 ===
+GroupAggregate  (cost=0.71..7210.21 rows=40036 width=53) (actual time=0.038..19.374 rows=558.00 loops=1)
+  Group Key: p.place_id
+  Filter: ((p.review_count <> count(*)) OR (p.avg_rating <> round(avg(r.rating), 1)))
+  Rows Removed by Filter: 33873
+  Buffers: shared hit=1255
+  ->  Merge Join  (cost=0.71..5634.29 rows=89998 width=15) (actual time=0.009..10.972 rows=89998.00 loops=1)
+        Merge Cond: (p.place_id = r.place_id)
+        Buffers: shared hit=1255
+        ->  Index Scan using places_pkey on places p  (cost=0.29..1965.04 rows=40042 width=13) (actual time=0.004..2.253 rows=40001.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1006
+        ->  Index Only Scan using idx_place_reviews_place_rating on place_reviews r  (cost=0.42..2446.39 rows=89998 width=6) (actual time=0.003..2.696 rows=89998.00 loops=1)
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=249
+Planning:
+  Buffers: shared hit=461
+Planning Time: 0.553 ms
+Execution Time: 19.417 ms

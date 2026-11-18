@@ -1,0 +1,45 @@
+=== R13 run 1 ===
+Merge Anti Join  (cost=0.57..2164.07 rows=33797 width=24) (actual time=0.509..5.570 rows=33368.00 loops=1)
+  Merge Cond: (p.place_id = n.origin_place_id)
+  Buffers: shared hit=2190 read=21
+  ->  Index Scan using places_pkey on places p  (cost=0.29..1965.04 rows=40042 width=24) (actual time=0.004..2.645 rows=40042.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=2189
+  ->  Index Only Scan using idx_nav_origin_place on navigation_sessions n  (cost=0.28..197.98 rows=200000 width=4) (actual time=0.501..0.873 rows=7416.00 loops=1)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=1 read=21
+Planning:
+  Buffers: shared hit=498
+Planning Time: 0.606 ms
+Execution Time: 6.180 ms
+=== R13 run 2 ===
+Merge Anti Join  (cost=0.57..2164.07 rows=33797 width=24) (actual time=0.026..4.450 rows=33368.00 loops=1)
+  Merge Cond: (p.place_id = n.origin_place_id)
+  Buffers: shared hit=1029
+  ->  Index Scan using places_pkey on places p  (cost=0.29..1965.04 rows=40042 width=24) (actual time=0.004..2.245 rows=40042.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=1007
+  ->  Index Only Scan using idx_nav_origin_place on navigation_sessions n  (cost=0.28..197.98 rows=200000 width=4) (actual time=0.019..0.239 rows=7416.00 loops=1)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=22
+Planning:
+  Buffers: shared hit=498
+Planning Time: 0.586 ms
+Execution Time: 5.036 ms
+=== R13 run 3 ===
+Merge Anti Join  (cost=0.57..2164.07 rows=33797 width=24) (actual time=0.020..4.438 rows=33368.00 loops=1)
+  Merge Cond: (p.place_id = n.origin_place_id)
+  Buffers: shared hit=1029
+  ->  Index Scan using places_pkey on places p  (cost=0.29..1965.04 rows=40042 width=24) (actual time=0.003..2.242 rows=40042.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=1007
+  ->  Index Only Scan using idx_nav_origin_place on navigation_sessions n  (cost=0.28..197.98 rows=200000 width=4) (actual time=0.013..0.229 rows=7416.00 loops=1)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=22
+Planning:
+  Buffers: shared hit=498
+Planning Time: 0.523 ms
+Execution Time: 5.022 ms

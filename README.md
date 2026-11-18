@@ -28,7 +28,7 @@
 | Member 3 | Gauri Tewari | 2501010557 | gauree-io |
 | Member 4 | Deepali Aggarwal | 2501010134 | deepaliaggarwal856-hub |
 
-**Team No.:** ____ · **Section:** ____ · **Repository URL:** ____
+Team No.: T0090 · Section: ____ · Repository URL: https://github.com/prachidevx/DE_Project_2026
 
 ---
 

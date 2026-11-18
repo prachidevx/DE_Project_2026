@@ -1,0 +1,57 @@
+=== R17 run 1 ===
+Limit  (cost=7305.55..7305.60 rows=20 width=44) (actual time=28.967..28.969 rows=20.00 loops=1)
+  Buffers: shared hit=3025
+  ->  Sort  (cost=7305.55..7331.98 rows=10573 width=44) (actual time=28.967..28.968 rows=20.00 loops=1)
+        Sort Key: (round(avg(rerouted_count), 2)) DESC
+        Sort Method: top-N heapsort  Memory: 27kB
+        Buffers: shared hit=3025
+        ->  HashAggregate  (cost=6522.00..7024.20 rows=10573 width=44) (actual time=23.808..27.995 rows=18558.00 loops=1)
+              Group Key: dest_place_id
+              Filter: (count(*) >= 5)
+              Batches: 1  Memory Usage: 6161kB
+              Rows Removed by Filter: 20705
+              Buffers: shared hit=3022
+              ->  Seq Scan on navigation_sessions  (cost=0.00..5022.00 rows=200000 width=8) (actual time=0.008..5.179 rows=200000.00 loops=1)
+                    Buffers: shared hit=3022
+Planning:
+  Buffers: shared hit=252
+Planning Time: 0.300 ms
+Execution Time: 29.029 ms
+=== R17 run 2 ===
+Limit  (cost=7305.55..7305.60 rows=20 width=44) (actual time=28.851..28.854 rows=20.00 loops=1)
+  Buffers: shared hit=3025
+  ->  Sort  (cost=7305.55..7331.98 rows=10573 width=44) (actual time=28.851..28.852 rows=20.00 loops=1)
+        Sort Key: (round(avg(rerouted_count), 2)) DESC
+        Sort Method: top-N heapsort  Memory: 27kB
+        Buffers: shared hit=3025
+        ->  HashAggregate  (cost=6522.00..7024.20 rows=10573 width=44) (actual time=23.781..27.892 rows=18558.00 loops=1)
+              Group Key: dest_place_id
+              Filter: (count(*) >= 5)
+              Batches: 1  Memory Usage: 6161kB
+              Rows Removed by Filter: 20705
+              Buffers: shared hit=3022
+              ->  Seq Scan on navigation_sessions  (cost=0.00..5022.00 rows=200000 width=8) (actual time=0.004..5.095 rows=200000.00 loops=1)
+                    Buffers: shared hit=3022
+Planning:
+  Buffers: shared hit=252
+Planning Time: 0.282 ms
+Execution Time: 28.912 ms
+=== R17 run 3 ===
+Limit  (cost=7305.55..7305.60 rows=20 width=44) (actual time=29.510..29.511 rows=20.00 loops=1)
+  Buffers: shared hit=3025
+  ->  Sort  (cost=7305.55..7331.98 rows=10573 width=44) (actual time=29.509..29.510 rows=20.00 loops=1)
+        Sort Key: (round(avg(rerouted_count), 2)) DESC
+        Sort Method: top-N heapsort  Memory: 27kB
+        Buffers: shared hit=3025
+        ->  HashAggregate  (cost=6522.00..7024.20 rows=10573 width=44) (actual time=24.098..28.514 rows=18558.00 loops=1)
+              Group Key: dest_place_id
+              Filter: (count(*) >= 5)
+              Batches: 1  Memory Usage: 6161kB
+              Rows Removed by Filter: 20705
+              Buffers: shared hit=3022
+              ->  Seq Scan on navigation_sessions  (cost=0.00..5022.00 rows=200000 width=8) (actual time=0.004..5.104 rows=200000.00 loops=1)
+                    Buffers: shared hit=3022
+Planning:
+  Buffers: shared hit=252
+Planning Time: 0.282 ms
+Execution Time: 29.574 ms
