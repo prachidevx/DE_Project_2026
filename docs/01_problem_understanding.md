@@ -1,4 +1,4 @@
-# Problem Understanding (Phase 1)
+# Problem Understanding
 
 ## Problems (P1 to P8)
 

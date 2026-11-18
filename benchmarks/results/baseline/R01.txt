@@ -1,0 +1,45 @@
+=== R01 run 1 ===
+Limit  (cost=1813.03..1813.04 rows=2 width=61) (actual time=6.931..6.934 rows=16.00 loops=1)
+  Buffers: shared hit=915
+  ->  Sort  (cost=1813.03..1813.04 rows=2 width=61) (actual time=6.929..6.930 rows=16.00 loops=1)
+        Sort Key: (round((('6371'::double precision * acos(LEAST('1'::double precision, ((('0.9746238552210419'::double precision * cos(radians(latitude))) * cos((radians(longitude) - '1.3548031052143383'::double precision))) + ('0.2238489241298101'::double precision * sin(radians(latitude))))))))::numeric, 3))
+        Sort Method: quicksort  Memory: 26kB
+        Buffers: shared hit=915
+        ->  Seq Scan on places  (cost=0.00..1813.02 rows=2 width=61) (actual time=0.117..6.854 rows=16.00 loops=1)
+              Filter: ((NOT is_permanently_closed) AND (latitude >= '12.9262'::double precision) AND (latitude <= '12.9442'::double precision) AND (longitude >= '77.6152'::double precision) AND (longitude <= '77.6338'::double precision) AND (category_id = 1))
+              Rows Removed by Filter: 40026
+              Buffers: shared hit=912
+Planning:
+  Buffers: shared hit=137
+Planning Time: 0.590 ms
+Execution Time: 6.986 ms
+=== R01 run 2 ===
+Limit  (cost=1813.03..1813.04 rows=2 width=61) (actual time=5.418..5.420 rows=16.00 loops=1)
+  Buffers: shared hit=915
+  ->  Sort  (cost=1813.03..1813.04 rows=2 width=61) (actual time=5.416..5.418 rows=16.00 loops=1)
+        Sort Key: (round((('6371'::double precision * acos(LEAST('1'::double precision, ((('0.9746238552210419'::double precision * cos(radians(latitude))) * cos((radians(longitude) - '1.3548031052143383'::double precision))) + ('0.2238489241298101'::double precision * sin(radians(latitude))))))))::numeric, 3))
+        Sort Method: quicksort  Memory: 26kB
+        Buffers: shared hit=915
+        ->  Seq Scan on places  (cost=0.00..1813.02 rows=2 width=61) (actual time=0.109..5.393 rows=16.00 loops=1)
+              Filter: ((NOT is_permanently_closed) AND (latitude >= '12.9262'::double precision) AND (latitude <= '12.9442'::double precision) AND (longitude >= '77.6152'::double precision) AND (longitude <= '77.6338'::double precision) AND (category_id = 1))
+              Rows Removed by Filter: 40026
+              Buffers: shared hit=912
+Planning:
+  Buffers: shared hit=137
+Planning Time: 0.490 ms
+Execution Time: 5.467 ms
+=== R01 run 3 ===
+Limit  (cost=1813.03..1813.04 rows=2 width=61) (actual time=5.065..5.068 rows=16.00 loops=1)
+  Buffers: shared hit=915
+  ->  Sort  (cost=1813.03..1813.04 rows=2 width=61) (actual time=5.065..5.066 rows=16.00 loops=1)
+        Sort Key: (round((('6371'::double precision * acos(LEAST('1'::double precision, ((('0.9746238552210419'::double precision * cos(radians(latitude))) * cos((radians(longitude) - '1.3548031052143383'::double precision))) + ('0.2238489241298101'::double precision * sin(radians(latitude))))))))::numeric, 3))
+        Sort Method: quicksort  Memory: 26kB
+        Buffers: shared hit=915
+        ->  Seq Scan on places  (cost=0.00..1813.02 rows=2 width=61) (actual time=0.109..5.044 rows=16.00 loops=1)
+              Filter: ((NOT is_permanently_closed) AND (latitude >= '12.9262'::double precision) AND (latitude <= '12.9442'::double precision) AND (longitude >= '77.6152'::double precision) AND (longitude <= '77.6338'::double precision) AND (category_id = 1))
+              Rows Removed by Filter: 40026
+              Buffers: shared hit=912
+Planning:
+  Buffers: shared hit=137
+Planning Time: 0.444 ms
+Execution Time: 5.112 ms
