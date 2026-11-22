@@ -1,0 +1,48 @@
+=== R06 run 1 ===
+Nested Loop  (cost=0.85..25.35 rows=2 width=43) (actual time=0.608..0.667 rows=1.00 loops=1)
+  Buffers: shared hit=1 read=10 dirtied=2
+  ->  Index Only Scan using idx_saved_places_user_list_saved on saved_places s  (cost=0.42..8.46 rows=2 width=22) (actual time=0.581..0.640 rows=1.00 loops=1)
+        Index Cond: (user_id = 1005)
+        Heap Fetches: 3
+        Index Searches: 1
+        Buffers: shared read=7 dirtied=2
+  ->  Index Scan using idx_places_place_cat on places p  (cost=0.42..8.44 rows=1 width=25) (actual time=0.024..0.024 rows=1.00 loops=1)
+        Index Cond: (place_id = s.place_id)
+        Index Searches: 1
+        Buffers: shared hit=1 read=3
+Planning:
+  Buffers: shared hit=398 read=3
+Planning Time: 2.359 ms
+Execution Time: 0.712 ms
+=== R06 run 2 ===
+Nested Loop  (cost=0.85..25.35 rows=2 width=43) (actual time=0.065..0.066 rows=1.00 loops=1)
+  Buffers: shared hit=8
+  ->  Index Only Scan using idx_saved_places_user_list_saved on saved_places s  (cost=0.42..8.46 rows=2 width=22) (actual time=0.050..0.051 rows=1.00 loops=1)
+        Index Cond: (user_id = 1005)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=4
+  ->  Index Scan using idx_places_place_cat on places p  (cost=0.42..8.44 rows=1 width=25) (actual time=0.012..0.012 rows=1.00 loops=1)
+        Index Cond: (place_id = s.place_id)
+        Index Searches: 1
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=401
+Planning Time: 1.277 ms
+Execution Time: 0.110 ms
+=== R06 run 3 ===
+Nested Loop  (cost=0.85..25.35 rows=2 width=43) (actual time=0.075..0.076 rows=1.00 loops=1)
+  Buffers: shared hit=8
+  ->  Index Only Scan using idx_saved_places_user_list_saved on saved_places s  (cost=0.42..8.46 rows=2 width=22) (actual time=0.058..0.058 rows=1.00 loops=1)
+        Index Cond: (user_id = 1005)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=4
+  ->  Index Scan using idx_places_place_cat on places p  (cost=0.42..8.44 rows=1 width=25) (actual time=0.015..0.015 rows=1.00 loops=1)
+        Index Cond: (place_id = s.place_id)
+        Index Searches: 1
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=401
+Planning Time: 1.444 ms
+Execution Time: 0.149 ms

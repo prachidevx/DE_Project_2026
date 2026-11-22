@@ -1,0 +1,93 @@
+=== R24 run 1 ===
+Gather  (cost=24269.66..47596.03 rows=1612 width=29) (actual time=100.699..104.133 rows=853.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=26180 read=10966 written=1703
+  ->  Parallel Hash Join  (cost=23269.66..46434.83 rows=672 width=29) (actual time=98.141..98.620 rows=284.33 loops=3)
+        Hash Cond: ((b.name)::text = (a.name)::text)
+        Join Filter: ((b.place_id > a.place_id) AND (abs((b.latitude - a.latitude)) < '0.001'::double precision) AND (abs((b.longitude - a.longitude)) < '0.001'::double precision))
+        Rows Removed by Join Filter: 14791
+        Buffers: shared hit=26180 read=10966 written=1703
+        ->  Parallel Seq Scan on places b  (cost=0.00..21656.08 rows=347008 width=41) (actual time=0.042..19.713 rows=266951.00 loops=3)
+              Buffers: shared hit=15743 read=2443
+        ->  Parallel Hash  (cost=23043.34..23043.34 rows=18106 width=41) (actual time=44.678..44.679 rows=14507.00 loops=3)
+              Buckets: 65536  Batches: 1  Memory Usage: 3776kB
+              Buffers: shared hit=10437 read=8523 written=1703
+              ->  Parallel Bitmap Heap Scan on places a  (cost=4038.22..23043.34 rows=18106 width=41) (actual time=9.142..41.421 rows=14507.00 loops=3)
+                    Recheck Cond: (city_id = 1)
+                    Filter: (category_id = 1)
+                    Rows Removed by Filter: 28444
+                    Heap Blocks: exact=6071
+                    Buffers: shared hit=10437 read=8523 written=1703
+                    Worker 0:  Heap Blocks: exact=6174
+                    Worker 1:  Heap Blocks: exact=5941
+                    ->  Bitmap Index Scan on idx_places_city_place  (cost=0.00..4027.36 rows=131058 width=0) (actual time=8.744..8.744 rows=134196.00 loops=1)
+                          Index Cond: (city_id = 1)
+                          Index Searches: 1
+                          Buffers: shared read=774
+Planning:
+  Buffers: shared hit=463 read=1
+Planning Time: 1.256 ms
+Execution Time: 104.204 ms
+=== R24 run 2 ===
+Gather  (cost=24269.66..47596.03 rows=1612 width=29) (actual time=82.024..85.190 rows=853.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=24255 read=12891 written=1
+  ->  Parallel Hash Join  (cost=23269.66..46434.83 rows=672 width=29) (actual time=79.333..79.788 rows=284.33 loops=3)
+        Hash Cond: ((b.name)::text = (a.name)::text)
+        Join Filter: ((b.place_id > a.place_id) AND (abs((b.latitude - a.latitude)) < '0.001'::double precision) AND (abs((b.longitude - a.longitude)) < '0.001'::double precision))
+        Rows Removed by Join Filter: 14791
+        Buffers: shared hit=24255 read=12891 written=1
+        ->  Parallel Seq Scan on places b  (cost=0.00..21656.08 rows=347008 width=41) (actual time=0.011..18.128 rows=266951.00 loops=3)
+              Buffers: shared hit=15156 read=3030
+        ->  Parallel Hash  (cost=23043.34..23043.34 rows=18106 width=41) (actual time=31.742..31.743 rows=14507.00 loops=3)
+              Buckets: 65536  Batches: 1  Memory Usage: 3776kB
+              Buffers: shared hit=9099 read=9861 written=1
+              ->  Parallel Bitmap Heap Scan on places a  (cost=4038.22..23043.34 rows=18106 width=41) (actual time=8.495..28.952 rows=14507.00 loops=3)
+                    Recheck Cond: (city_id = 1)
+                    Filter: (category_id = 1)
+                    Rows Removed by Filter: 28444
+                    Heap Blocks: exact=6279
+                    Buffers: shared hit=9099 read=9861 written=1
+                    Worker 0:  Heap Blocks: exact=5908
+                    Worker 1:  Heap Blocks: exact=5999
+                    ->  Bitmap Index Scan on idx_places_city_place  (cost=0.00..4027.36 rows=131058 width=0) (actual time=8.315..8.315 rows=134196.00 loops=1)
+                          Index Cond: (city_id = 1)
+                          Index Searches: 1
+                          Buffers: shared read=774 written=1
+Planning:
+  Buffers: shared hit=462 read=2
+Planning Time: 1.381 ms
+Execution Time: 85.260 ms
+=== R24 run 3 ===
+Gather  (cost=24269.66..47596.03 rows=1612 width=29) (actual time=80.391..83.172 rows=853.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=21649 read=15497
+  ->  Parallel Hash Join  (cost=23269.66..46434.83 rows=672 width=29) (actual time=77.828..78.177 rows=284.33 loops=3)
+        Hash Cond: ((b.name)::text = (a.name)::text)
+        Join Filter: ((b.place_id > a.place_id) AND (abs((b.latitude - a.latitude)) < '0.001'::double precision) AND (abs((b.longitude - a.longitude)) < '0.001'::double precision))
+        Rows Removed by Join Filter: 14791
+        Buffers: shared hit=21649 read=15497
+        ->  Parallel Seq Scan on places b  (cost=0.00..21656.08 rows=347008 width=41) (actual time=0.033..17.789 rows=266951.00 loops=3)
+              Buffers: shared hit=15956 read=2230
+        ->  Parallel Hash  (cost=23043.34..23043.34 rows=18106 width=41) (actual time=29.910..29.911 rows=14507.00 loops=3)
+              Buckets: 65536  Batches: 1  Memory Usage: 3776kB
+              Buffers: shared hit=5693 read=13267
+              ->  Parallel Bitmap Heap Scan on places a  (cost=4038.22..23043.34 rows=18106 width=41) (actual time=8.335..27.044 rows=14507.00 loops=3)
+                    Recheck Cond: (city_id = 1)
+                    Filter: (category_id = 1)
+                    Rows Removed by Filter: 28444
+                    Heap Blocks: exact=6474
+                    Buffers: shared hit=5693 read=13267
+                    Worker 0:  Heap Blocks: exact=5788
+                    Worker 1:  Heap Blocks: exact=5924
+                    ->  Bitmap Index Scan on idx_places_city_place  (cost=0.00..4027.36 rows=131058 width=0) (actual time=7.972..7.972 rows=134196.00 loops=1)
+                          Index Cond: (city_id = 1)
+                          Index Searches: 1
+                          Buffers: shared read=774
+Planning:
+  Buffers: shared hit=454 read=10
+Planning Time: 1.288 ms
+Execution Time: 83.239 ms

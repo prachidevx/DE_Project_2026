@@ -1,0 +1,153 @@
+=== R19 run 1 ===
+Sort  (cost=442535.41..442600.94 rows=26212 width=41) (actual time=1557.085..1567.400 rows=21333.00 loops=1)
+  Sort Key: (COALESCE((count(*)), '0'::bigint)) DESC
+  Sort Method: quicksort  Memory: 2098kB
+  Buffers: shared hit=179 read=79239, temp read=24000 written=39860
+  InitPlan 1
+    ->  Seq Scan on place_categories  (cost=0.00..1.15 rows=1 width=4) (actual time=0.148..0.149 rows=1.00 loops=1)
+          Filter: ((category_name)::text = 'Hospital'::text)
+          Rows Removed by Filter: 11
+          Buffers: shared read=1
+  ->  Hash Right Join  (cost=288943.41..440610.57 rows=26212 width=41) (actual time=1035.774..1562.873 rows=21333.00 loops=1)
+        Hash Cond: (navigation_sessions.dest_place_id = p.place_id)
+        Buffers: shared hit=176 read=79239, temp read=24000 written=39860
+        ->  Finalize GroupAggregate  (cost=264429.98..410116.08 rows=473746 width=20) (actual time=961.663..1403.132 rows=785125.00 loops=1)
+              Group Key: navigation_sessions.dest_place_id
+              Buffers: shared hit=15 read=60439, temp read=24000 written=39860
+              ->  Gather Merge  (cost=264429.98..396851.20 rows=1136990 width=20) (actual time=961.649..1209.901 rows=1836460.00 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=15 read=60439, temp read=24000 written=39860
+                    ->  Sort  (cost=263429.95..264614.32 rows=473746 width=20) (actual time=955.862..1016.521 rows=612153.33 loops=3)
+                          Sort Key: navigation_sessions.dest_place_id
+                          Sort Method: external merge  Disk: 20568kB
+                          Buffers: shared hit=15 read=60439, temp read=24000 written=39860
+                          Worker 0:  Sort Method: external merge  Disk: 20192kB
+                          Worker 1:  Sort Method: external merge  Disk: 20408kB
+                          ->  Partial HashAggregate  (cost=188041.36..209054.50 rows=473746 width=20) (actual time=509.750..805.812 rows=612153.33 loops=3)
+                                Group Key: navigation_sessions.dest_place_id
+                                Planned Partitions: 8  Batches: 9  Memory Usage: 8025kB  Disk Usage: 48096kB
+                                Buffers: shared hit=1 read=60439, temp read=16354 written=32187
+                                Worker 0:  Batches: 9  Memory Usage: 9817kB  Disk Usage: 47856kB
+                                Worker 1:  Batches: 9  Memory Usage: 8025kB  Disk Usage: 47984kB
+                                ->  Parallel Seq Scan on navigation_sessions  (cost=0.00..77106.30 rows=1666630 width=12) (actual time=0.061..67.167 rows=1333333.33 loops=3)
+                                      Buffers: shared hit=1 read=60439
+        ->  Hash  (cost=24185.78..24185.78 rows=26212 width=25) (actual time=74.010..74.010 rows=21333.00 loops=1)
+              Buckets: 32768  Batches: 1  Memory Usage: 1509kB
+              Buffers: shared hit=161 read=18800
+              ->  Bitmap Heap Scan on places p  (cost=4033.91..24185.78 rows=26212 width=25) (actual time=16.166..69.551 rows=21333.00 loops=1)
+                    Recheck Cond: (city_id = 1)
+                    Filter: (category_id = (InitPlan 1).col1)
+                    Rows Removed by Filter: 107520
+                    Heap Blocks: exact=18186
+                    Buffers: shared hit=161 read=18800
+                    ->  Bitmap Index Scan on idx_places_city_place  (cost=0.00..4027.36 rows=131058 width=0) (actual time=13.445..13.445 rows=134196.00 loops=1)
+                          Index Cond: (city_id = 1)
+                          Index Searches: 1
+                          Buffers: shared read=774
+Planning:
+  Buffers: shared hit=390 read=16
+Planning Time: 2.549 ms
+Execution Time: 1571.739 ms
+=== R19 run 2 ===
+Sort  (cost=442535.41..442600.94 rows=26212 width=41) (actual time=1605.068..1615.888 rows=21333.00 loops=1)
+  Sort Key: (COALESCE((count(*)), '0'::bigint)) DESC
+  Sort Method: quicksort  Memory: 2098kB
+  Buffers: shared hit=38 read=79380 written=1, temp read=23981 written=39844
+  InitPlan 1
+    ->  Seq Scan on place_categories  (cost=0.00..1.15 rows=1 width=4) (actual time=0.162..0.163 rows=1.00 loops=1)
+          Filter: ((category_name)::text = 'Hospital'::text)
+          Rows Removed by Filter: 11
+          Buffers: shared read=1
+  ->  Hash Right Join  (cost=288943.41..440610.57 rows=26212 width=41) (actual time=1066.722..1611.437 rows=21333.00 loops=1)
+        Hash Cond: (navigation_sessions.dest_place_id = p.place_id)
+        Buffers: shared hit=35 read=79380 written=1, temp read=23981 written=39844
+        ->  Finalize GroupAggregate  (cost=264429.98..410116.08 rows=473746 width=20) (actual time=1013.245..1464.758 rows=785125.00 loops=1)
+              Group Key: navigation_sessions.dest_place_id
+              Buffers: shared hit=15 read=60439, temp read=23981 written=39844
+              ->  Gather Merge  (cost=264429.98..396851.20 rows=1136990 width=20) (actual time=1013.237..1265.314 rows=1837496.00 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=15 read=60439, temp read=23981 written=39844
+                    ->  Sort  (cost=263429.95..264614.32 rows=473746 width=20) (actual time=1002.891..1065.036 rows=612498.67 loops=3)
+                          Sort Key: navigation_sessions.dest_place_id
+                          Sort Method: external merge  Disk: 20248kB
+                          Buffers: shared hit=15 read=60439, temp read=23981 written=39844
+                          Worker 0:  Sort Method: external merge  Disk: 20520kB
+                          Worker 1:  Sort Method: external merge  Disk: 20432kB
+                          ->  Partial HashAggregate  (cost=188041.36..209054.50 rows=473746 width=20) (actual time=593.701..856.504 rows=612498.67 loops=3)
+                                Group Key: navigation_sessions.dest_place_id
+                                Planned Partitions: 8  Batches: 9  Memory Usage: 10073kB  Disk Usage: 47880kB
+                                Buffers: shared hit=1 read=60439, temp read=16331 written=32167
+                                Worker 0:  Batches: 9  Memory Usage: 8025kB  Disk Usage: 48064kB
+                                Worker 1:  Batches: 9  Memory Usage: 8025kB  Disk Usage: 48000kB
+                                ->  Parallel Seq Scan on navigation_sessions  (cost=0.00..77106.30 rows=1666630 width=12) (actual time=0.090..74.423 rows=1333333.33 loops=3)
+                                      Buffers: shared hit=1 read=60439
+        ->  Hash  (cost=24185.78..24185.78 rows=26212 width=25) (actual time=53.398..53.398 rows=21333.00 loops=1)
+              Buckets: 32768  Batches: 1  Memory Usage: 1509kB
+              Buffers: shared hit=20 read=18941 written=1
+              ->  Bitmap Heap Scan on places p  (cost=4033.91..24185.78 rows=26212 width=25) (actual time=10.889..49.924 rows=21333.00 loops=1)
+                    Recheck Cond: (city_id = 1)
+                    Filter: (category_id = (InitPlan 1).col1)
+                    Rows Removed by Filter: 107520
+                    Heap Blocks: exact=18186
+                    Buffers: shared hit=20 read=18941 written=1
+                    ->  Bitmap Index Scan on idx_places_city_place  (cost=0.00..4027.36 rows=131058 width=0) (actual time=7.850..7.850 rows=134196.00 loops=1)
+                          Index Cond: (city_id = 1)
+                          Index Searches: 1
+                          Buffers: shared read=774
+Planning:
+  Buffers: shared hit=393 read=13
+Planning Time: 1.543 ms
+Execution Time: 1620.380 ms
+=== R19 run 3 ===
+Sort  (cost=442535.41..442600.94 rows=26212 width=41) (actual time=1576.747..1581.596 rows=21333.00 loops=1)
+  Sort Key: (COALESCE((count(*)), '0'::bigint)) DESC
+  Sort Method: quicksort  Memory: 2098kB
+  Buffers: shared hit=18 read=79400, temp read=24120 written=39975
+  InitPlan 1
+    ->  Seq Scan on place_categories  (cost=0.00..1.15 rows=1 width=4) (actual time=0.041..0.042 rows=1.00 loops=1)
+          Filter: ((category_name)::text = 'Hospital'::text)
+          Rows Removed by Filter: 11
+          Buffers: shared read=1
+  ->  Hash Right Join  (cost=288943.41..440610.57 rows=26212 width=41) (actual time=1067.099..1577.390 rows=21333.00 loops=1)
+        Hash Cond: (navigation_sessions.dest_place_id = p.place_id)
+        Buffers: shared hit=15 read=79400, temp read=24120 written=39975
+        ->  Finalize GroupAggregate  (cost=264429.98..410116.08 rows=473746 width=20) (actual time=974.638..1407.527 rows=785125.00 loops=1)
+              Group Key: navigation_sessions.dest_place_id
+              Buffers: shared hit=14 read=60440, temp read=24120 written=39975
+              ->  Gather Merge  (cost=264429.98..396851.20 rows=1136990 width=20) (actual time=974.627..1215.231 rows=1836777.00 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=14 read=60440, temp read=24120 written=39975
+                    ->  Sort  (cost=263429.95..264614.32 rows=473746 width=20) (actual time=968.017..1027.801 rows=612259.00 loops=3)
+                          Sort Key: navigation_sessions.dest_place_id
+                          Sort Method: external merge  Disk: 20752kB
+                          Buffers: shared hit=14 read=60440, temp read=24120 written=39975
+                          Worker 0:  Sort Method: external merge  Disk: 20296kB
+                          Worker 1:  Sort Method: external merge  Disk: 20120kB
+                          ->  Partial HashAggregate  (cost=188041.36..209054.50 rows=473746 width=20) (actual time=540.857..817.273 rows=612259.00 loops=3)
+                                Group Key: navigation_sessions.dest_place_id
+                                Planned Partitions: 8  Batches: 9  Memory Usage: 8025kB  Disk Usage: 48232kB
+                                Buffers: shared read=60440, temp read=16474 written=32302
+                                Worker 0:  Batches: 9  Memory Usage: 10073kB  Disk Usage: 47912kB
+                                Worker 1:  Batches: 9  Memory Usage: 9561kB  Disk Usage: 47944kB
+                                ->  Parallel Seq Scan on navigation_sessions  (cost=0.00..77106.30 rows=1666630 width=12) (actual time=1.535..72.928 rows=1333333.33 loops=3)
+                                      Buffers: shared read=60440
+        ->  Hash  (cost=24185.78..24185.78 rows=26212 width=25) (actual time=92.367..92.367 rows=21333.00 loops=1)
+              Buckets: 32768  Batches: 1  Memory Usage: 1509kB
+              Buffers: shared hit=1 read=18960
+              ->  Bitmap Heap Scan on places p  (cost=4033.91..24185.78 rows=26212 width=25) (actual time=10.089..87.656 rows=21333.00 loops=1)
+                    Recheck Cond: (city_id = 1)
+                    Filter: (category_id = (InitPlan 1).col1)
+                    Rows Removed by Filter: 107520
+                    Heap Blocks: exact=18186
+                    Buffers: shared hit=1 read=18960
+                    ->  Bitmap Index Scan on idx_places_city_place  (cost=0.00..4027.36 rows=131058 width=0) (actual time=7.471..7.471 rows=134196.00 loops=1)
+                          Index Cond: (city_id = 1)
+                          Index Searches: 1
+                          Buffers: shared read=774
+Planning:
+  Buffers: shared hit=393 read=13
+Planning Time: 1.741 ms
+Execution Time: 1586.296 ms

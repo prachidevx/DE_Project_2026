@@ -1,0 +1,114 @@
+=== R25 run 1 ===
+Sort  (cost=96513.59..96513.60 rows=3 width=47) (actual time=783.917..783.944 rows=3.00 loops=1)
+  Sort Key: (round(((100.0 * (count(*) FILTER (WHERE (t.avg_speed_kmph > (s.speed_limit_kmph)::numeric)))::numeric) / (count(*))::numeric), 1)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=1219 read=42272
+  ->  Finalize GroupAggregate  (cost=96512.63..96513.57 rows=3 width=47) (actual time=783.905..783.936 rows=3.00 loops=1)
+        Group Key: s.road_type
+        Buffers: shared hit=1216 read=42272
+        ->  Gather Merge  (cost=96512.63..96513.45 rows=7 width=23) (actual time=783.887..783.920 rows=9.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=1216 read=42272
+              ->  Sort  (cost=95512.61..95512.62 rows=3 width=23) (actual time=779.292..779.293 rows=3.00 loops=3)
+                    Sort Key: s.road_type
+                    Sort Method: quicksort  Memory: 25kB
+                    Buffers: shared hit=1216 read=42272
+                    Worker 0:  Sort Method: quicksort  Memory: 25kB
+                    Worker 1:  Sort Method: quicksort  Memory: 25kB
+                    ->  Partial HashAggregate  (cost=95512.55..95512.58 rows=3 width=23) (actual time=779.252..779.254 rows=3.00 loops=3)
+                          Group Key: s.road_type
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=1200 read=42272
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Hash Join  (cost=1500.00..69472.77 rows=2083183 width=17) (actual time=9.375..429.882 rows=1666552.00 loops=3)
+                                Hash Cond: (t.segment_id = s.segment_id)
+                                Buffers: shared hit=1200 read=42272
+                                ->  Parallel Seq Scan on traffic_readings t  (cost=0.00..62503.83 rows=2083183 width=10) (actual time=0.280..81.605 rows=1666552.00 loops=3)
+                                      Buffers: shared read=41672
+                                ->  Hash  (cost=1000.00..1000.00 rows=40000 width=15) (actual time=9.026..9.027 rows=40000.00 loops=3)
+                                      Buckets: 65536  Batches: 1  Memory Usage: 2450kB
+                                      Buffers: shared hit=1200 read=600
+                                      ->  Seq Scan on road_segments s  (cost=0.00..1000.00 rows=40000 width=15) (actual time=0.040..4.282 rows=40000.00 loops=3)
+                                            Buffers: shared hit=1200 read=600
+Planning:
+  Buffers: shared hit=296 read=33
+Planning Time: 3.055 ms
+Execution Time: 784.024 ms
+=== R25 run 2 ===
+Sort  (cost=96513.59..96513.60 rows=3 width=47) (actual time=698.616..699.881 rows=3.00 loops=1)
+  Sort Key: (round(((100.0 * (count(*) FILTER (WHERE (t.avg_speed_kmph > (s.speed_limit_kmph)::numeric)))::numeric) / (count(*))::numeric), 1)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=2101 read=41390
+  ->  Finalize GroupAggregate  (cost=96512.63..96513.57 rows=3 width=47) (actual time=698.597..699.869 rows=3.00 loops=1)
+        Group Key: s.road_type
+        Buffers: shared hit=2098 read=41390
+        ->  Gather Merge  (cost=96512.63..96513.45 rows=7 width=23) (actual time=698.545..699.817 rows=9.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=2098 read=41390
+              ->  Sort  (cost=95512.61..95512.62 rows=3 width=23) (actual time=695.927..695.930 rows=3.00 loops=3)
+                    Sort Key: s.road_type
+                    Sort Method: quicksort  Memory: 25kB
+                    Buffers: shared hit=2098 read=41390
+                    Worker 0:  Sort Method: quicksort  Memory: 25kB
+                    Worker 1:  Sort Method: quicksort  Memory: 25kB
+                    ->  Partial HashAggregate  (cost=95512.55..95512.58 rows=3 width=23) (actual time=695.896..695.899 rows=3.00 loops=3)
+                          Group Key: s.road_type
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=2082 read=41390
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Hash Join  (cost=1500.00..69472.77 rows=2083183 width=17) (actual time=9.395..379.856 rows=1666552.00 loops=3)
+                                Hash Cond: (t.segment_id = s.segment_id)
+                                Buffers: shared hit=2082 read=41390
+                                ->  Parallel Seq Scan on traffic_readings t  (cost=0.00..62503.83 rows=2083183 width=10) (actual time=0.079..75.435 rows=1666552.00 loops=3)
+                                      Buffers: shared hit=282 read=41390
+                                ->  Hash  (cost=1000.00..1000.00 rows=40000 width=15) (actual time=9.250..9.251 rows=40000.00 loops=3)
+                                      Buckets: 65536  Batches: 1  Memory Usage: 2450kB
+                                      Buffers: shared hit=1800
+                                      ->  Seq Scan on road_segments s  (cost=0.00..1000.00 rows=40000 width=15) (actual time=0.032..4.207 rows=40000.00 loops=3)
+                                            Buffers: shared hit=1800
+Planning:
+  Buffers: shared hit=329
+Planning Time: 0.861 ms
+Execution Time: 699.963 ms
+=== R25 run 3 ===
+Sort  (cost=96513.59..96513.60 rows=3 width=47) (actual time=673.339..674.451 rows=3.00 loops=1)
+  Sort Key: (round(((100.0 * (count(*) FILTER (WHERE (t.avg_speed_kmph > (s.speed_limit_kmph)::numeric)))::numeric) / (count(*))::numeric), 1)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=2383 read=41108
+  ->  Finalize GroupAggregate  (cost=96512.63..96513.57 rows=3 width=47) (actual time=673.329..674.444 rows=3.00 loops=1)
+        Group Key: s.road_type
+        Buffers: shared hit=2380 read=41108
+        ->  Gather Merge  (cost=96512.63..96513.45 rows=7 width=23) (actual time=673.317..674.432 rows=9.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=2380 read=41108
+              ->  Sort  (cost=95512.61..95512.62 rows=3 width=23) (actual time=670.700..670.701 rows=3.00 loops=3)
+                    Sort Key: s.road_type
+                    Sort Method: quicksort  Memory: 25kB
+                    Buffers: shared hit=2380 read=41108
+                    Worker 0:  Sort Method: quicksort  Memory: 25kB
+                    Worker 1:  Sort Method: quicksort  Memory: 25kB
+                    ->  Partial HashAggregate  (cost=95512.55..95512.58 rows=3 width=23) (actual time=670.660..670.661 rows=3.00 loops=3)
+                          Group Key: s.road_type
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=2364 read=41108
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Hash Join  (cost=1500.00..69472.77 rows=2083183 width=17) (actual time=9.420..352.455 rows=1666552.00 loops=3)
+                                Hash Cond: (t.segment_id = s.segment_id)
+                                Buffers: shared hit=2364 read=41108
+                                ->  Parallel Seq Scan on traffic_readings t  (cost=0.00..62503.83 rows=2083183 width=10) (actual time=0.082..73.403 rows=1666552.00 loops=3)
+                                      Buffers: shared hit=564 read=41108
+                                ->  Hash  (cost=1000.00..1000.00 rows=40000 width=15) (actual time=9.272..9.273 rows=40000.00 loops=3)
+                                      Buckets: 65536  Batches: 1  Memory Usage: 2450kB
+                                      Buffers: shared hit=1800
+                                      ->  Seq Scan on road_segments s  (cost=0.00..1000.00 rows=40000 width=15) (actual time=0.035..4.123 rows=40000.00 loops=3)
+                                            Buffers: shared hit=1800
+Planning:
+  Buffers: shared hit=329
+Planning Time: 0.836 ms
+Execution Time: 674.531 ms

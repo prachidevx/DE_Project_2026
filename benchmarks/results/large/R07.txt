@@ -1,0 +1,75 @@
+=== R07 run 1 ===
+Sort  (cost=389.94..390.53 rows=238 width=48) (actual time=5.639..5.670 rows=800.00 loops=1)
+  Sort Key: s.segment_id
+  Sort Method: quicksort  Memory: 85kB
+  Buffers: shared hit=2434
+  ->  Nested Loop  (cost=0.85..380.54 rows=238 width=48) (actual time=0.374..5.431 rows=800.00 loops=1)
+        Buffers: shared hit=2431
+        ->  Index Only Scan using idx_road_segments_city_road on road_segments s  (cost=0.41..255.95 rows=238 width=29) (actual time=0.309..0.420 rows=800.00 loops=1)
+              Index Cond: (city_id = 1)
+              Filter: ((road_name)::text ~~ 'Outer Ring Road%'::text)
+              Rows Removed by Filter: 3200
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=30
+        ->  Limit  (cost=0.43..0.51 rows=1 width=19) (actual time=0.006..0.006 rows=1.00 loops=800)
+              Buffers: shared hit=2401
+              ->  Index Only Scan using idx_traffic_readings_segment_recorded on traffic_readings t  (cost=0.43..10.64 rows=126 width=19) (actual time=0.006..0.006 rows=1.00 loops=800)
+                    Index Cond: (segment_id = s.segment_id)
+                    Heap Fetches: 0
+                    Index Searches: 800
+                    Buffers: shared hit=2401
+Planning:
+  Buffers: shared hit=244
+Planning Time: 0.899 ms
+Execution Time: 5.732 ms
+=== R07 run 2 ===
+Sort  (cost=389.94..390.53 rows=238 width=48) (actual time=5.412..5.442 rows=800.00 loops=1)
+  Sort Key: s.segment_id
+  Sort Method: quicksort  Memory: 85kB
+  Buffers: shared hit=2434
+  ->  Nested Loop  (cost=0.85..380.54 rows=238 width=48) (actual time=0.350..5.217 rows=800.00 loops=1)
+        Buffers: shared hit=2431
+        ->  Index Only Scan using idx_road_segments_city_road on road_segments s  (cost=0.41..255.95 rows=238 width=29) (actual time=0.298..0.402 rows=800.00 loops=1)
+              Index Cond: (city_id = 1)
+              Filter: ((road_name)::text ~~ 'Outer Ring Road%'::text)
+              Rows Removed by Filter: 3200
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=30
+        ->  Limit  (cost=0.43..0.51 rows=1 width=19) (actual time=0.006..0.006 rows=1.00 loops=800)
+              Buffers: shared hit=2401
+              ->  Index Only Scan using idx_traffic_readings_segment_recorded on traffic_readings t  (cost=0.43..10.64 rows=126 width=19) (actual time=0.006..0.006 rows=1.00 loops=800)
+                    Index Cond: (segment_id = s.segment_id)
+                    Heap Fetches: 0
+                    Index Searches: 800
+                    Buffers: shared hit=2401
+Planning:
+  Buffers: shared hit=244
+Planning Time: 0.793 ms
+Execution Time: 5.502 ms
+=== R07 run 3 ===
+Sort  (cost=389.94..390.53 rows=238 width=48) (actual time=4.738..4.766 rows=800.00 loops=1)
+  Sort Key: s.segment_id
+  Sort Method: quicksort  Memory: 85kB
+  Buffers: shared hit=2434
+  ->  Nested Loop  (cost=0.85..380.54 rows=238 width=48) (actual time=0.344..4.569 rows=800.00 loops=1)
+        Buffers: shared hit=2431
+        ->  Index Only Scan using idx_road_segments_city_road on road_segments s  (cost=0.41..255.95 rows=238 width=29) (actual time=0.292..0.381 rows=800.00 loops=1)
+              Index Cond: (city_id = 1)
+              Filter: ((road_name)::text ~~ 'Outer Ring Road%'::text)
+              Rows Removed by Filter: 3200
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=30
+        ->  Limit  (cost=0.43..0.51 rows=1 width=19) (actual time=0.005..0.005 rows=1.00 loops=800)
+              Buffers: shared hit=2401
+              ->  Index Only Scan using idx_traffic_readings_segment_recorded on traffic_readings t  (cost=0.43..10.64 rows=126 width=19) (actual time=0.005..0.005 rows=1.00 loops=800)
+                    Index Cond: (segment_id = s.segment_id)
+                    Heap Fetches: 0
+                    Index Searches: 800
+                    Buffers: shared hit=2401
+Planning:
+  Buffers: shared hit=244
+Planning Time: 0.787 ms
+Execution Time: 4.825 ms

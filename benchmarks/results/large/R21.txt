@@ -1,0 +1,144 @@
+=== R21 run 1 ===
+Sort  (cost=114656.93..114656.96 rows=12 width=17) (actual time=669.911..676.755 rows=3.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=47384 read=44111 dirtied=2186, temp read=17804 written=17864
+  ->  Finalize GroupAggregate  (cost=114653.07..114656.72 rows=12 width=17) (actual time=669.899..676.745 rows=3.00 loops=1)
+        Group Key: c.category_name
+        Buffers: shared hit=47381 read=44111 dirtied=2186, temp read=17804 written=17864
+        ->  Gather Merge  (cost=114653.07..114656.45 rows=29 width=17) (actual time=669.889..676.737 rows=9.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=47381 read=44111 dirtied=2186, temp read=17804 written=17864
+              ->  Sort  (cost=113653.05..113653.08 rows=12 width=17) (actual time=664.271..664.304 rows=3.00 loops=3)
+                    Sort Key: c.category_name
+                    Sort Method: quicksort  Memory: 25kB
+                    Buffers: shared hit=47381 read=44111 dirtied=2186, temp read=17804 written=17864
+                    Worker 0:  Sort Method: quicksort  Memory: 25kB
+                    Worker 1:  Sort Method: quicksort  Memory: 25kB
+                    ->  Partial HashAggregate  (cost=113652.72..113652.84 rows=12 width=17) (actual time=664.235..664.268 rows=3.00 loops=3)
+                          Group Key: c.category_name
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=47365 read=44111 dirtied=2186, temp read=17804 written=17864
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Parallel Hash Right Anti Join  (cost=25342.95..113309.26 rows=68692 width=9) (actual time=548.681..661.375 rows=26695.00 loops=3)
+                                Hash Cond: (h.place_id = p.place_id)
+                                Buffers: shared hit=47365 read=44111 dirtied=2186, temp read=17804 written=17864
+                                ->  Parallel Seq Scan on opening_hours h  (cost=0.00..53200.72 rows=2102472 width=4) (actual time=0.702..129.811 rows=1681792.00 loops=3)
+                                      Buffers: shared read=32176
+                                ->  Parallel Hash  (cost=19310.35..19310.35 rows=347008 width=13) (actual time=129.098..129.098 rows=266951.00 loops=3)
+                                      Buckets: 262144  Batches: 8  Memory Usage: 6944kB
+                                      Buffers: shared hit=47365 read=11935 dirtied=2186, temp written=3032
+                                      ->  Hash Join  (cost=1.70..19310.35 rows=347008 width=13) (actual time=0.099..87.254 rows=266951.00 loops=3)
+                                            Hash Cond: (p.category_id = c.category_id)
+                                            Buffers: shared hit=47365 read=11935 dirtied=2186
+                                            ->  Parallel Index Only Scan using idx_places_place_cat on places p  (cost=0.42..18076.49 rows=347008 width=8) (actual time=0.060..51.976 rows=266951.00 loops=3)
+                                                  Heap Fetches: 556827
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=47362 read=11935 dirtied=2186
+                                            ->  Hash  (cost=1.12..1.12 rows=12 width=13) (actual time=0.032..0.032 rows=12.00 loops=3)
+                                                  Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                  Buffers: shared hit=3
+                                                  ->  Seq Scan on place_categories c  (cost=0.00..1.12 rows=12 width=13) (actual time=0.025..0.026 rows=12.00 loops=3)
+                                                        Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=418 read=32
+Planning Time: 2.856 ms
+Execution Time: 676.865 ms
+=== R21 run 2 ===
+Sort  (cost=114656.93..114656.96 rows=12 width=17) (actual time=572.766..578.870 rows=3.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=15928 read=31894, temp read=17803 written=17876
+  ->  Finalize GroupAggregate  (cost=114653.07..114656.72 rows=12 width=17) (actual time=572.755..578.861 rows=3.00 loops=1)
+        Group Key: c.category_name
+        Buffers: shared hit=15925 read=31894, temp read=17803 written=17876
+        ->  Gather Merge  (cost=114653.07..114656.45 rows=29 width=17) (actual time=572.745..578.852 rows=9.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=15925 read=31894, temp read=17803 written=17876
+              ->  Sort  (cost=113653.05..113653.08 rows=12 width=17) (actual time=567.031..567.034 rows=3.00 loops=3)
+                    Sort Key: c.category_name
+                    Sort Method: quicksort  Memory: 25kB
+                    Buffers: shared hit=15925 read=31894, temp read=17803 written=17876
+                    Worker 0:  Sort Method: quicksort  Memory: 25kB
+                    Worker 1:  Sort Method: quicksort  Memory: 25kB
+                    ->  Partial HashAggregate  (cost=113652.72..113652.84 rows=12 width=17) (actual time=566.993..566.996 rows=3.00 loops=3)
+                          Group Key: c.category_name
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=15909 read=31894, temp read=17803 written=17876
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Parallel Hash Right Anti Join  (cost=25342.95..113309.26 rows=68692 width=9) (actual time=443.610..563.928 rows=26695.00 loops=3)
+                                Hash Cond: (h.place_id = p.place_id)
+                                Buffers: shared hit=15909 read=31894, temp read=17803 written=17876
+                                ->  Parallel Seq Scan on opening_hours h  (cost=0.00..53200.72 rows=2102472 width=4) (actual time=0.105..95.122 rows=1681792.00 loops=3)
+                                      Buffers: shared hit=282 read=31894
+                                ->  Parallel Hash  (cost=19310.35..19310.35 rows=347008 width=13) (actual time=100.805..100.807 rows=266951.00 loops=3)
+                                      Buckets: 262144  Batches: 8  Memory Usage: 6944kB
+                                      Buffers: shared hit=15627, temp written=3040
+                                      ->  Hash Join  (cost=1.70..19310.35 rows=347008 width=13) (actual time=0.070..62.722 rows=266951.00 loops=3)
+                                            Hash Cond: (p.category_id = c.category_id)
+                                            Buffers: shared hit=15627
+                                            ->  Parallel Index Only Scan using idx_places_place_cat on places p  (cost=0.42..18076.49 rows=347008 width=8) (actual time=0.032..32.460 rows=266951.00 loops=3)
+                                                  Heap Fetches: 523183
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=15624
+                                            ->  Hash  (cost=1.12..1.12 rows=12 width=13) (actual time=0.031..0.032 rows=12.00 loops=3)
+                                                  Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                  Buffers: shared hit=3
+                                                  ->  Seq Scan on place_categories c  (cost=0.00..1.12 rows=12 width=13) (actual time=0.025..0.026 rows=12.00 loops=3)
+                                                        Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=450
+Planning Time: 1.466 ms
+Execution Time: 578.971 ms
+=== R21 run 3 ===
+Sort  (cost=114656.93..114656.96 rows=12 width=17) (actual time=553.515..558.071 rows=3.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=16210 read=31612, temp read=17805 written=17872
+  ->  Finalize GroupAggregate  (cost=114653.07..114656.72 rows=12 width=17) (actual time=553.504..558.062 rows=3.00 loops=1)
+        Group Key: c.category_name
+        Buffers: shared hit=16207 read=31612, temp read=17805 written=17872
+        ->  Gather Merge  (cost=114653.07..114656.45 rows=29 width=17) (actual time=553.497..558.057 rows=9.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=16207 read=31612, temp read=17805 written=17872
+              ->  Sort  (cost=113653.05..113653.08 rows=12 width=17) (actual time=547.870..547.896 rows=3.00 loops=3)
+                    Sort Key: c.category_name
+                    Sort Method: quicksort  Memory: 25kB
+                    Buffers: shared hit=16207 read=31612, temp read=17805 written=17872
+                    Worker 0:  Sort Method: quicksort  Memory: 25kB
+                    Worker 1:  Sort Method: quicksort  Memory: 25kB
+                    ->  Partial HashAggregate  (cost=113652.72..113652.84 rows=12 width=17) (actual time=547.843..547.869 rows=3.00 loops=3)
+                          Group Key: c.category_name
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=16191 read=31612, temp read=17805 written=17872
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Parallel Hash Right Anti Join  (cost=25342.95..113309.26 rows=68692 width=9) (actual time=432.156..544.891 rows=26695.00 loops=3)
+                                Hash Cond: (h.place_id = p.place_id)
+                                Buffers: shared hit=16191 read=31612, temp read=17805 written=17872
+                                ->  Parallel Seq Scan on opening_hours h  (cost=0.00..53200.72 rows=2102472 width=4) (actual time=0.123..94.461 rows=1681792.00 loops=3)
+                                      Buffers: shared hit=564 read=31612
+                                ->  Parallel Hash  (cost=19310.35..19310.35 rows=347008 width=13) (actual time=102.218..102.218 rows=266951.00 loops=3)
+                                      Buckets: 262144  Batches: 8  Memory Usage: 6944kB
+                                      Buffers: shared hit=15627, temp written=3048
+                                      ->  Hash Join  (cost=1.70..19310.35 rows=347008 width=13) (actual time=0.070..63.724 rows=266951.00 loops=3)
+                                            Hash Cond: (p.category_id = c.category_id)
+                                            Buffers: shared hit=15627
+                                            ->  Parallel Index Only Scan using idx_places_place_cat on places p  (cost=0.42..18076.49 rows=347008 width=8) (actual time=0.032..32.702 rows=266951.00 loops=3)
+                                                  Heap Fetches: 523183
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=15624
+                                            ->  Hash  (cost=1.12..1.12 rows=12 width=13) (actual time=0.032..0.032 rows=12.00 loops=3)
+                                                  Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                  Buffers: shared hit=3
+                                                  ->  Seq Scan on place_categories c  (cost=0.00..1.12 rows=12 width=13) (actual time=0.025..0.026 rows=12.00 loops=3)
+                                                        Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=450
+Planning Time: 1.457 ms
+Execution Time: 558.168 ms

@@ -1,0 +1,51 @@
+=== R11 run 1 ===
+GroupAggregate  (cost=187113.90..224067.67 rows=1137039 width=55) (actual time=613.350..774.924 rows=24.00 loops=1)
+  Group Key: (date_trunc('month'::text, started_at)), travel_mode
+  Buffers: shared hit=7 read=5902 written=3378, temp read=9688 written=9706
+  ->  Sort  (cost=187113.90..189956.50 rows=1137039 width=23) (actual time=601.099..678.264 rows=1125819.00 loops=1)
+        Sort Key: (date_trunc('month'::text, started_at)), travel_mode
+        Sort Method: external merge  Disk: 38784kB
+        Buffers: shared hit=7 read=5902 written=3378, temp read=9688 written=9706
+        ->  Index Only Scan using idx_nav_completed_started on navigation_sessions  (cost=0.43..49425.18 rows=1137039 width=23) (actual time=0.376..255.792 rows=1125819.00 loops=1)
+              Index Cond: ((started_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (started_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone))
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=1 read=5902 written=3378
+Planning:
+  Buffers: shared hit=203 read=14 dirtied=2
+Planning Time: 2.224 ms
+Execution Time: 784.122 ms
+=== R11 run 2 ===
+GroupAggregate  (cost=187113.90..224067.67 rows=1137039 width=55) (actual time=570.139..730.237 rows=24.00 loops=1)
+  Group Key: (date_trunc('month'::text, started_at)), travel_mode
+  Buffers: shared hit=5586 read=323 written=79, temp read=9688 written=9706
+  ->  Sort  (cost=187113.90..189956.50 rows=1137039 width=23) (actual time=557.804..631.617 rows=1125819.00 loops=1)
+        Sort Key: (date_trunc('month'::text, started_at)), travel_mode
+        Sort Method: external merge  Disk: 38784kB
+        Buffers: shared hit=5586 read=323 written=79, temp read=9688 written=9706
+        ->  Index Only Scan using idx_nav_completed_started on navigation_sessions  (cost=0.43..49425.18 rows=1137039 width=23) (actual time=0.026..211.420 rows=1125819.00 loops=1)
+              Index Cond: ((started_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (started_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone))
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=5580 read=323 written=79
+Planning:
+  Buffers: shared hit=206 read=9
+Planning Time: 0.728 ms
+Execution Time: 738.951 ms
+=== R11 run 3 ===
+GroupAggregate  (cost=187113.90..224067.67 rows=1137039 width=55) (actual time=564.368..727.694 rows=24.00 loops=1)
+  Group Key: (date_trunc('month'::text, started_at)), travel_mode
+  Buffers: shared hit=5909, temp read=9688 written=9706
+  ->  Sort  (cost=187113.90..189956.50 rows=1137039 width=23) (actual time=551.419..627.545 rows=1125819.00 loops=1)
+        Sort Key: (date_trunc('month'::text, started_at)), travel_mode
+        Sort Method: external merge  Disk: 38784kB
+        Buffers: shared hit=5909, temp read=9688 written=9706
+        ->  Index Only Scan using idx_nav_completed_started on navigation_sessions  (cost=0.43..49425.18 rows=1137039 width=23) (actual time=0.019..206.181 rows=1125819.00 loops=1)
+              Index Cond: ((started_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (started_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone))
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=5903
+Planning:
+  Buffers: shared hit=215
+Planning Time: 0.777 ms
+Execution Time: 728.949 ms

@@ -1,0 +1,69 @@
+=== R18 run 1 ===
+Sort  (cost=68192.95..68192.96 rows=4 width=47) (actual time=246.621..248.004 rows=4.00 loops=1)
+  Sort Key: (round(((100.0 * (count(*) FILTER (WHERE ((status)::text = 'CANCELLED'::text)))::numeric) / (count(*))::numeric), 1)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=43 read=3436 dirtied=1
+  ->  Finalize GroupAggregate  (cost=1000.45..68192.91 rows=4 width=47) (actual time=246.595..247.985 rows=4.00 loops=1)
+        Group Key: travel_mode
+        Buffers: shared hit=40 read=3436 dirtied=1
+        ->  Gather Merge  (cost=1000.45..68192.75 rows=10 width=23) (actual time=246.360..247.960 rows=10.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=40 read=3436 dirtied=1
+              ->  Partial GroupAggregate  (cost=0.43..67191.57 rows=4 width=23) (actual time=84.984..190.884 rows=3.33 loops=3)
+                    Group Key: travel_mode
+                    Buffers: shared hit=40 read=3436 dirtied=1
+                    ->  Parallel Index Only Scan using idx_nav_mode_status on navigation_sessions  (cost=0.43..50525.23 rows=1666630 width=17) (actual time=0.237..79.927 rows=1333333.33 loops=3)
+                          Heap Fetches: 53
+                          Index Searches: 1
+                          Buffers: shared hit=40 read=3436 dirtied=1
+Planning:
+  Buffers: shared hit=196
+Planning Time: 0.659 ms
+Execution Time: 248.103 ms
+=== R18 run 2 ===
+Sort  (cost=68192.95..68192.96 rows=4 width=47) (actual time=228.242..229.750 rows=4.00 loops=1)
+  Sort Key: (round(((100.0 * (count(*) FILTER (WHERE ((status)::text = 'CANCELLED'::text)))::numeric) / (count(*))::numeric), 1)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=1976 read=1499
+  ->  Finalize GroupAggregate  (cost=1000.45..68192.91 rows=4 width=47) (actual time=228.221..229.734 rows=4.00 loops=1)
+        Group Key: travel_mode
+        Buffers: shared hit=1973 read=1499
+        ->  Gather Merge  (cost=1000.45..68192.75 rows=10 width=23) (actual time=228.034..229.717 rows=10.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=1973 read=1499
+              ->  Partial GroupAggregate  (cost=0.43..67191.57 rows=4 width=23) (actual time=81.541..177.472 rows=3.33 loops=3)
+                    Group Key: travel_mode
+                    Buffers: shared hit=1973 read=1499
+                    ->  Parallel Index Only Scan using idx_nav_mode_status on navigation_sessions  (cost=0.43..50525.23 rows=1666630 width=17) (actual time=0.159..75.102 rows=1333333.33 loops=3)
+                          Heap Fetches: 50
+                          Index Searches: 1
+                          Buffers: shared hit=1973 read=1499
+Planning:
+  Buffers: shared hit=196
+Planning Time: 0.507 ms
+Execution Time: 229.811 ms
+=== R18 run 3 ===
+Sort  (cost=68192.95..68192.96 rows=4 width=47) (actual time=230.473..231.982 rows=4.00 loops=1)
+  Sort Key: (round(((100.0 * (count(*) FILTER (WHERE ((status)::text = 'CANCELLED'::text)))::numeric) / (count(*))::numeric), 1)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=3476
+  ->  Finalize GroupAggregate  (cost=1000.45..68192.91 rows=4 width=47) (actual time=230.451..231.967 rows=4.00 loops=1)
+        Group Key: travel_mode
+        Buffers: shared hit=3473
+        ->  Gather Merge  (cost=1000.45..68192.75 rows=10 width=23) (actual time=230.211..231.949 rows=10.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=3473
+              ->  Partial GroupAggregate  (cost=0.43..67191.57 rows=4 width=23) (actual time=76.648..177.510 rows=3.33 loops=3)
+                    Group Key: travel_mode
+                    Buffers: shared hit=3473
+                    ->  Parallel Index Only Scan using idx_nav_mode_status on navigation_sessions  (cost=0.43..50525.23 rows=1666630 width=17) (actual time=0.046..72.362 rows=1333333.33 loops=3)
+                          Heap Fetches: 50
+                          Index Searches: 1
+                          Buffers: shared hit=3473
+Planning:
+  Buffers: shared hit=196
+Planning Time: 0.525 ms
+Execution Time: 232.043 ms

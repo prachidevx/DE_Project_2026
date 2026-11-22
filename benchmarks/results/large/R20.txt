@@ -1,0 +1,63 @@
+=== R20 run 1 ===
+WindowAgg  (cost=30451.67..38049.68 rows=217087 width=44) (actual time=45.206..62.983 rows=30.00 loops=1)
+  Window: w1 AS (ORDER BY ((navigation_sessions.started_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=7 read=843, temp read=324 written=325
+  ->  GroupAggregate  (cost=30451.64..34793.38 rows=217087 width=12) (actual time=44.551..62.945 rows=30.00 loops=1)
+        Group Key: ((navigation_sessions.started_at)::date)
+        Buffers: shared hit=7 read=843, temp read=324 written=325
+        ->  Sort  (cost=30451.64..30994.35 rows=217087 width=4) (actual time=43.898..53.308 rows=219780.00 loops=1)
+              Sort Key: ((navigation_sessions.started_at)::date)
+              Sort Method: external merge  Disk: 2592kB
+              Buffers: shared hit=7 read=843, temp read=324 written=325
+              ->  Index Only Scan using idx_nav_started_dest on navigation_sessions  (cost=0.43..8241.14 rows=217087 width=4) (actual time=0.021..27.926 rows=219780.00 loops=1)
+                    Index Cond: ((started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (started_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Heap Fetches: 50
+                    Index Searches: 1
+                    Buffers: shared hit=4 read=843
+Planning:
+  Buffers: shared hit=205 read=4
+Planning Time: 0.703 ms
+Execution Time: 63.769 ms
+=== R20 run 2 ===
+WindowAgg  (cost=30451.67..38049.68 rows=217087 width=44) (actual time=43.916..61.721 rows=30.00 loops=1)
+  Window: w1 AS (ORDER BY ((navigation_sessions.started_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=850, temp read=324 written=325
+  ->  GroupAggregate  (cost=30451.64..34793.38 rows=217087 width=12) (actual time=43.265..61.685 rows=30.00 loops=1)
+        Group Key: ((navigation_sessions.started_at)::date)
+        Buffers: shared hit=850, temp read=324 written=325
+        ->  Sort  (cost=30451.64..30994.35 rows=217087 width=4) (actual time=42.602..52.050 rows=219780.00 loops=1)
+              Sort Key: ((navigation_sessions.started_at)::date)
+              Sort Method: external merge  Disk: 2592kB
+              Buffers: shared hit=850, temp read=324 written=325
+              ->  Index Only Scan using idx_nav_started_dest on navigation_sessions  (cost=0.43..8241.14 rows=217087 width=4) (actual time=0.019..26.431 rows=219780.00 loops=1)
+                    Index Cond: ((started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (started_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Heap Fetches: 50
+                    Index Searches: 1
+                    Buffers: shared hit=847
+Planning:
+  Buffers: shared hit=209
+Planning Time: 0.856 ms
+Execution Time: 63.464 ms
+=== R20 run 3 ===
+WindowAgg  (cost=30451.67..38049.68 rows=217087 width=44) (actual time=44.690..62.471 rows=30.00 loops=1)
+  Window: w1 AS (ORDER BY ((navigation_sessions.started_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=850, temp read=324 written=325
+  ->  GroupAggregate  (cost=30451.64..34793.38 rows=217087 width=12) (actual time=44.035..62.433 rows=30.00 loops=1)
+        Group Key: ((navigation_sessions.started_at)::date)
+        Buffers: shared hit=850, temp read=324 written=325
+        ->  Sort  (cost=30451.64..30994.35 rows=217087 width=4) (actual time=43.378..52.812 rows=219780.00 loops=1)
+              Sort Key: ((navigation_sessions.started_at)::date)
+              Sort Method: external merge  Disk: 2592kB
+              Buffers: shared hit=850, temp read=324 written=325
+              ->  Index Only Scan using idx_nav_started_dest on navigation_sessions  (cost=0.43..8241.14 rows=217087 width=4) (actual time=0.018..26.956 rows=219780.00 loops=1)
+                    Index Cond: ((started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (started_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Heap Fetches: 50
+                    Index Searches: 1
+                    Buffers: shared hit=847
+Planning:
+  Buffers: shared hit=209
+Planning Time: 0.768 ms
+Execution Time: 64.565 ms
