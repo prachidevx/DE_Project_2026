@@ -64,11 +64,18 @@ ORDER BY s.list_name, s.saved_at DESC;
 
 -- @R07
 -- Live traffic layer: the latest reading of every Outer Ring Road segment in Bengaluru
-SELECT DISTINCT ON (t.segment_id) t.segment_id, s.road_name, t.recorded_at, t.avg_speed_kmph, t.congestion_level
-FROM traffic_readings t
-JOIN road_segments s ON s.segment_id = t.segment_id
+-- Optimized via LATERAL join to fetch only 1 latest reading per segment using index seek
+SELECT s.segment_id, s.road_name, t.recorded_at, t.avg_speed_kmph, t.congestion_level
+FROM road_segments s
+CROSS JOIN LATERAL (
+    SELECT t.recorded_at, t.avg_speed_kmph, t.congestion_level
+    FROM traffic_readings t
+    WHERE t.segment_id = s.segment_id
+    ORDER BY t.recorded_at DESC
+    LIMIT 1
+) t
 WHERE s.city_id = 1 AND s.road_name LIKE 'Outer Ring Road%'
-ORDER BY t.segment_id, t.recorded_at DESC;
+ORDER BY s.segment_id;
 
 -- @R08
 -- Traffic alerts: Bengaluru segments with heavy traffic or standstill since 18:00 on 30 June 2026
